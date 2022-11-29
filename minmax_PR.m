@@ -10,7 +10,7 @@ close all
 % distribution. 
 % 
 
-rs = load('SULA_minmax.mat');
+rs = load('SULA_minmax_w444.mat');
 
 rc_min =  load('LABCO_MC_zeroerosion.mat');
 
@@ -52,9 +52,9 @@ for a = 1:length(mins)
     plot(maxs(a),(length(mins)+1 - a),'<k','markerfacecolor','k','markersize',8);
 end
 
-ids = {'318', '439', '446s', '464', 'NXP 93*52', 'LABCO'};
+ids = {'318', '439', '446s', '464', 'NXP 93*52', '444', 'LABCO'};
 
-set(gca,'xlim',[2 6], 'ylim', [0 length(maxs)+1],'FontSize', 16, 'ytick',[1:6],'yticklabel',flip(ids));
+set(gca,'xlim',[2 6], 'ylim', [0 length(maxs)+1],'FontSize', 16, 'ytick',[1:7],'yticklabel',flip(ids));
 grid on;
 box on;
     

@@ -28,7 +28,7 @@ samples.dN3 = table2array(data(:, 'dN3_LDEO')); % and uncertainty, measured at L
 
                                                       
 % CRONUS-P (CPX-2) He-3 concentration measured at LDEO; [atoms ^g-1]
-samples.cronusPMeasured = zeros(5, 1);
+samples.cronusPMeasured = zeros(length(samples.ID), 1);
 samples.cronusPMeasured(:) = samples.N3_meas(strcmp(samples.ID, 'CPX-2'));
 
 % normalize He-3 concentrations
@@ -54,7 +54,9 @@ p.dN3noncosmo = 1.1e6;
 
 p.constants = bedrock_constants();
 
-p.constants.dP3p_St = 0.108 .* p.constants.P3p_St;
+p.P3p_St = 119.6;
+
+p.constants.dP3p_St = 0.11 .* p.constants.P3p_St;
 
 % other constants
 
@@ -71,7 +73,7 @@ p.h = antatm(samples.elv); % site pressure
 % Define p rate info
 p.sf_St = stone2000(samples.lat,p.h,1); % scaling factor
 
-p.sf_thick = (p.constants.Lsp./samples.thickness) .* (1-exp(-(samples.thickness./p.constants.Lsp)));
+p.sf_thick = (p.constants.Lsp./samples.thickness) .* (1-exp((-1.*samples.thickness./p.constants.Lsp)));
 
 p.sf_tot = p.sf_St' .* p.sf_thick;
 
@@ -141,7 +143,7 @@ dP10_ee = sqrt((samples.dN3./samples.N3_meas).^2 + (samples.dN10./samples.N10).^
 
 %% save
 
-save('SULA_minmax.mat', "P10_tt", "P10_ee", 'dP10_ee', 'dP10_tt', 'samples');
+save('SULA_minmax_w444.mat', "P10_tt", "P10_ee", 'dP10_ee', 'dP10_tt', 'samples');
     
 %% Objective function for fitting erosion rate
 

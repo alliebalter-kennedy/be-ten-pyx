@@ -10,7 +10,7 @@ close all
 
 %% constants
 
-constants.P3_SLHL = 124.03;             % Production rate of He-3 in
+constants.P3_SLHL = 119.6;             % Production rate of He-3 in
                                         % pyroxene at sea level, high
                                         % latitude; [atoms g^-1 yr^-1];
                                         % calculated using the v3 online
@@ -44,15 +44,11 @@ p.SFsp = stone2000(loc.lat,p.h,1); % scaling factor
 
 p.mc10.Natoms = 1.5684e22; % for O in average Ferrar Dolerite pyroxenes
 p.mc10.sigma0 = 0.280e-30; % ubarns; Balco 2017
-% p.mc10.sigma0 = 0.280e-30.*0.5; % ubarns; Balco 2017
-% p.mc10.sigma0 = 0.280e-30.*1.5; % ubarns; Balco 2017
 p.mc10.k_neg = 1; % Dummy
 
 % p.mc3.Natoms = 2.61E+22; % for total atoms in augite (average atomic weight ~23)
 p.mc3.Natoms = 2.7373e+22; % for total atoms standard basalt (average atomic weight ~22)
-p.mc3.sigma0 = 5.70e-30; % ubarns; from Balco fit to Larsen data
-% p.mc3.sigma0 = 5.70e-30.*0.5; % ubarns; from Balco fit to Larsen data
-% p.mc3.sigma0 = 5.70e-30.*1.5; % ubarns; from Balco fit to Larsen data
+p.mc3.sigma0 = 6.01e-30; % ubarns; from Balco fit to Larsen data
 p.mc3.k_neg = 1; % Dummy
 
 p.predz = logspace(0,4,100); %[g cm^-2]
@@ -104,7 +100,7 @@ ni = 1000; % number of iterations
 for i = 1:ni
 % for each iteration, choose values for he, be and P3
     this_p = p;
-    this_p.P3sp = (randn(1,1).*(0.108.*constants.P3_SLHL) + constants.P3_SLHL).*p.SFsp; %10.8% uncertainty on P3
+    this_p.P3sp = (randn(1,1).*(0.11.*constants.P3_SLHL) + constants.P3_SLHL).*p.SFsp; %11% uncertainty on P3
     this_data = data;
     this_data.be.N10 = randn(size(this_data.be.N10)) .*this_data.be.dN10 + this_data.be.N10;
     this_data.he.N3_normalized = randn(size(this_data.he.N3_normalized)) .*this_data.he.dN3 + this_data.he.N3_normalized;

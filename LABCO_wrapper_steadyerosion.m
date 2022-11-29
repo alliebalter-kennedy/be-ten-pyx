@@ -12,7 +12,7 @@ addpath('data/')
 
 %% constants
 
-constants.P3_SLHL = 124.03;             % Production rate of He-3 in
+constants.P3_SLHL = 119.6;             % Production rate of He-3 in
                                         % pyroxene at sea level, high
                                         % latitude; [atoms g^-1 yr^-1];
                                         % calculated using the v3 online
@@ -48,15 +48,11 @@ p.P3sp = constants.P3_SLHL.*p.SFsp;
 
 p.mc10.Natoms = 1.5684e22; % for O in average Ferrar Dolerite pyroxenes
 p.mc10.sigma0 = 0.280e-30; % ubarns; Balco 2017
-% p.mc10.sigma0 = 0.280e-30.*0.5; % ubarns; Balco 2017
-% p.mc10.sigma0 = 0.280e-30.*1.5; % ubarns; Balco 2017
 p.mc10.k_neg = 1; % Dummy
 
 % p.mc3.Natoms = 2.61E+22; % for total atoms in augite (average atomic weight ~23)
 p.mc3.Natoms = 2.7373e+22; % for total atoms standard basalt (average atomic weight ~22)
 p.mc3.sigma0 = 6.01e-30; % ubarns; from Balco fit to Larsen data
-% p.mc3.sigma0 = 5.70e-30.*0.5; % ubarns; from Balco fit to Larsen data
-% p.mc3.sigma0 = 5.70e-30.*1.5; % ubarns; from Balco fit to Larsen data
 p.mc3.k_neg = 1; % Dummy
 
 p.predz = logspace(0,4,100); %[g cm^-2]
@@ -126,15 +122,12 @@ pz = [0:5:275].*constants.rho;
 
 mc10.Natoms = 1.5684e22; % for O in average Ferrar Dolerite pyroxenes
 mc10.sigma0 = 0.280e-30; % ubarns; Balco 2017
-% mc10.sigma0 = 0.280e-30.*0.5; % ubarns; Balco 2017
-% mc10.sigma0 = 0.280e-30.*1.5; % ubarns; Balco 2017
 mc10.k_neg = opt.k_neg_10; % Dummy
 
 % mc3.Natoms = 2.61E+22; % for total atoms in augite (average atomic weight ~23)
 mc3.Natoms = 2.7373e+22; % for total atoms standard basalt (average atomic weight ~22)
 mc3.sigma0 = 6.01e-30; % ubarns; from Balco fit to Larsen data
-% mc3.sigma0 = 5.70e-30.*0.5; % ubarns; from Balco fit to Larsen data
-% mc3.sigma0 = 5.70e-30.*1.5; % ubarns; from Balco fit to Larsen data
+
 mc3.k_neg = opt.k_neg_3; % Dummy
 
 
