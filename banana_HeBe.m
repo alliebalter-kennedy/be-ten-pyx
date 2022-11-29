@@ -53,7 +53,7 @@ sula_data = readtable(sula_filename);
 sula.ID = table2cell(sula_data(:, 'Sample_ID')); % Sample IDs
 
 % put sample data in array
-sula.thickness = table2array(sula_data(:, 'thickness')); % Sample thickness in g cm-2
+sula.thickness = table2array(sula_data(:, 'thickness')).*rho; % Sample thickness in g cm-2
 
 % put He-3 data in array
 sula.N3_meas = table2array(sula_data(:, 'N3_LDEO')); % He-3 concentrations
@@ -61,7 +61,7 @@ sula.dN3 = table2array(sula_data(:, 'dN3_LDEO')); % and uncertainty, measured at
 
                                                       
 % CRONUS-P (CPX-2) He-3 concentration measured at LDEO; [atoms ^g-1]
-sula.cronusPMeasured = zeros(5, 1);
+sula.cronusPMeasured = zeros(length(sula.ID), 1);
 sula.cronusPMeasured(:) = sula.N3_meas(strcmp(sula.ID, 'CPX-2'));
 
 
@@ -79,21 +79,7 @@ sula.atm = table2cell(sula_data(:, 'atm'));       % Amosphere model; 'ant' is
                                                 % Antarctic; 'std' is
                                                 % standard
 
-%% add SULA-444 - not really efficient
-sula.ID(end+1) = {'SULA-444'};
-sula.thickness(end+1) = 1.5;
-sula.N3_meas(end+1) = 5.20E+08;
-sula.dN3(end+1) = 2.00E+07;
-sula.cronusPMeasured(end+1) = 5.21E+09;
-sula.N10(end+1) = 10204465;
-sula.dN10(end+1) = 245515;
-sula.lat(end+1) = -77.52;
-sula.long(end+1) = 160.91;
-sula.elv(end+1) = 1145;
-sula.atm(end+1) = {'ant'};
-
-
-%% add LABCO, same, not efficient 
+%% add LABCO, not efficient 
 sula.ID = {'318', '439', '446s', '464', 'NXP 93*52', '444'}; % transform sample names so same as text
 
 sula.ID(end+1) = {'LABCO'};
@@ -101,7 +87,7 @@ sula.thickness(end+1) = 1;
 sula.N3_meas(end+1) = 4.54E+08;
 sula.dN3(end+1) = 9.23E+06;
 sula.cronusPMeasured(end+1) = 4.78E+09;
-sula.N10(end+1) = 8.29e6;
+sula.N10(end+1) = 8.25e+06;
 sula.dN10(end+1) = 8.29e6.*0.03;
 sula.lat(end+1) = -77.54976;
 sula.long(end+1) = 160.9578;
@@ -115,7 +101,7 @@ sula.N3 = sula.N3_meas .* (5.02E+09./sula.cronusPMeasured);
 p.constants = bedrock_constants();
 
 p.constants.P10p_St = 3.6; % from summary stats exercise in section 5.1.3
-p.constants.P3p_St = 124.03; % from Borchers et al., 2016
+p.constants.P3p_St = 119.6; % from Borchers et al., 2016
 HeBeRatio = p.constants.P3p_St./p.constants.P10p_St; 
 
 % Atmospheric pressure at site
@@ -124,7 +110,7 @@ p.siteP = antatm(sula.elv); % site air pressure
 % Define St scaling factor
 p.SFsp = stone2000(sula.lat,p.siteP,1); % scaling factor
 
-p.sf_thick = (Lsp./sula.thickness) .* (1-exp(-(sula.thickness./Lsp)));
+p.sf_thick = (Lsp./sula.thickness) .* (1-exp((-1*sula.thickness./Lsp)));
 
 % Get production rates
 
@@ -164,7 +150,7 @@ for a = 1:length(sula.dN3)
     end
 end
 plot(banana.HeNorm, banana.BeNorm./banana.HeNorm, 'ko', 'MarkerFaceColor', 'k', 'MarkerSize', 4)
-
+box on
 
 % axes(ax2)
 % hold on
